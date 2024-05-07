@@ -1,15 +1,21 @@
+
 # Introduction
-
-This repository contains templates for generating HPC images compatible with Oracle Cloud cluster networks and compute clusters. 
-They are highly customizable, providing abiility to add and remove components. 
-
+This repository contains templates for generating HPC images compatible with Oracle Cloud cluster networks and compute clusters.
+They are highly customizable, providing abiility to add and remove components.
 # Building image using packer
 
-# Customization
+> edit the template file and uncomment: access_cfg_file, access_cfg_file_account, region
+> provide values for the variables via -var="variable=value" or -var-file=defaults.pkr.hcl 
 
-Customization of the image is controlled by two packer variables *build_options* and *build_groups* 
+```
+cd images
+packer build -var-file=defaults.pkr.hcl template.pkr.hcl
+```
+# Customization
+Customization of the image is controlled by two packer variables *build_options* and *build_groups*
 
 build_options
+
 : Defines features to be enabled in the image
 : `default = "noselinux,nomitigations,upgrade,openmpi,nvidia,enroot,monitoring,benchmarks,networkdevicenames"`
 
@@ -26,5 +32,7 @@ build_options
 | networkdevicenames | Install udev rules for correct device naming |
 
 build_groups
+
 : Defines component versions and variables
-default = [ "kernel_parameters", "oci_hpc_packages", "mofed_54_3681", "hpcx_2131", "openmpi_414", "nvidia_515", "nvidia_cuda_11_7" ]
+
+`default = [ "kernel_parameters", "oci_hpc_packages", "mofed_54_3681", "hpcx_2131", "openmpi_414", "nvidia_515", "nvidia_cuda_11_7" ]`
