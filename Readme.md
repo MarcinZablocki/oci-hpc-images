@@ -4,7 +4,7 @@ This repository contains templates for generating HPC images compatible with Ora
 They are highly customizable, providing abiility to add and remove components.
 # Building image using packer
 
-> edit the template file and uncomment: access_cfg_file, access_cfg_file_account, region
+> Copy images/default.pkr.hcl.example file to images/default.pkr.hcl
 > provide values for the variables via -var="variable=value" or -var-file=defaults.pkr.hcl 
 
 ```
