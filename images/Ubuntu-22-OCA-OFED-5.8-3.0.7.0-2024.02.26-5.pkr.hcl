@@ -13,23 +13,18 @@ packer {
     }
 }
 
-variable "image_id" {
-  type    = string
-  default = "ocid1.image.oc1.iad.aaaaaaaaxauxzsyqlldmew5bh4xhw6r5k7b5jjcunjkalzgdgtyeqkv24gaa"
-}
-
 variable "image_base_name" {
   type    = string
-  default = "Ubuntu-22-OCA-OFED-5.8-3.0.7.0-GPU-535-2024.02.26-5"
+  default = "Ubuntu-22-OCA-OFED-5.8-3.0.7.0-2024.02.26-5"
 }
 
 variable "build_options" {
   type    = string
-  default = "noselinux,nomitigations,upgrade,openmpi,nvidia,enroot,monitoring,benchmarks,networkdevicenames,use_plugins"
+  default = "noselinux,nomitigations,upgrade,openmpi,enroot,monitoring,benchmarks,networkdevicenames,use_plugins"
 }
 
 variable "build_groups" {
-  default = [ "kernel_parameters", "oci_hpc_packages", "mofed_58_3070", "hpcx_2131", "openmpi_414", "nvidia_535", "nvidia_cuda_12_2" , "use_plugins" ]
+  default = [ "kernel_parameters", "oci_hpc_packages", "mofed_58_3070", "hpcx_2131", "openmpi_414", "use_plugins" ]
 }
 
 variable "region" {
@@ -75,6 +70,7 @@ variable "use_instance_principals" {
   default = true
 }
 
+/* changes should not be required below */
 
 source "oracle-oci" "oracle" {
   availability_domain = var.ad
