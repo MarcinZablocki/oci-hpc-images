@@ -20,6 +20,26 @@
   environment: "{{proxy_env if proxy_env is defined else {}}}"
   when: nvidia_driver_add_repos | bool
 
+- name: Install local repo
+  apt: 
+    deb: "{{ nvidia_driver_ubuntu_local_repo_download_url }}"
+    state: present
+
+- name: Find the keychain files
+  find: 
+    paths: /var
+    patterns: "cuda-*-keyring.gpg"
+    recurse: yes
+  register: keychain_files
+
+- name: Install the keychain files
+  copy: 
+    remote_src: yes
+    src: "{{ item.path }}"
+    dest: "/usr/share/keyrings/"
+  with_items: "{{ keychain_files.files }}"
+  when: keychain_files.matched > 0
+
 - name: esure kmod is installed
   apt:
     name: "kmod"
@@ -30,24 +50,20 @@
     name: nouveau
     state: present
 
-- name: add repo
-  apt_repository:
-    repo: "deb {{ nvidia_driver_ubuntu_cuda_repo_baseurl }} /"
-    update_cache: yes
-  environment: "{{proxy_env if proxy_env is defined else {}}}"
-  when: nvidia_driver_add_repos | bool
-
 - name: install driver packages
   apt:
-    name: "{{ nvidia_driver_package_version | ternary(nvidia_driver_ubuntu_cuda_package+'-'+nvidia_driver_package_version, nvidia_driver_ubuntu_cuda_package) }}"
+    name: "{{ nvidia_driver_ubuntu_cuda_package }}"
     state: "{{ nvidia_driver_package_state }}"
     autoremove: "{{ nvidia_driver_package_state == 'absent' }}"
     purge: "{{ nvidia_driver_package_state == 'absent' }}"
+    update_cache: yes
   register: install_driver
   environment: "{{proxy_env if proxy_env is defined else {}}}"
+
 
 # add peermem to modprobe.d
 - name: add peermem to modprobe.d
   ansible.builtin.lineinfile:
-    path: /etc/modules-load.d/modules.conf
-    line: "nvidia_peermem"
+    path: /etc/modules-load.d/nvidia_peermem.conf
+    line: nvidia_peermem
+    create: yes

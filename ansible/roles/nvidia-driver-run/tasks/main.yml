@@ -1,0 +1,19 @@
+---
+- name: Installation for Ubuntu
+  block:
+    - name: Download driver 
+    # https://us.download.nvidia.com/tesla/${NVIDIA_DRIVER_VERSION}/NVIDIA-Linux-x86_64-${NVIDIA_DRIVER_VERSION}.run
+      get_url:
+        url: "https://us.download.nvidia.com/tesla/{{ nvidia_driver_version }}/NVIDIA-Linux-x86_64-{{ nvidia_driver_version }}.run"
+        dest: "/tmp/NVIDIA-Linux-x86_64-{{ nvidia_driver_version }}.run"
+        mode: 0755
+      environment: "{{ proxy_env if proxy_env is defined else {} }}"
+
+    - name: Install driver
+      command: "/tmp/NVIDIA-Linux-x86_64-{{ nvidia_driver_version }}.run --silent --dkms"
+      environment: "{{ proxy_env if proxy_env is defined else {} }}"
+      args:
+        creates: "/usr/bin/nvidia-smi"
+
+  when:
+    - ansible_distribution == 'Ubuntu'

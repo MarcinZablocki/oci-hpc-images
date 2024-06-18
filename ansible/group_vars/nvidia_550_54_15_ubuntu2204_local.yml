@@ -1,0 +1,7 @@
+nvidia_driver_version: "550"
+nvidia_driver_package_version: "550.54.15-1"
+nvidia_driver_branch: "550"
+nvidia_driver_skip_reboot: yes
+nvidia_driver_ubuntu_install_from_local_repo: yes
+nvidia_driver_ubuntu_local_repo_download_url: https://developer.download.nvidia.com/compute/cuda/12.4.1/local_installers/cuda-repo-ubuntu2204-12-4-local_12.4.1-550.54.15-1_amd64.deb
+nvidia_cuda: 12-4

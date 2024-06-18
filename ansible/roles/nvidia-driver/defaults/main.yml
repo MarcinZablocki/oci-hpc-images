@@ -30,6 +30,7 @@ nvidia_driver_ubuntu_branch: "{{ nvidia_driver_branch }}"
 
 # Determine if we should install from CUDA repo instead of Canonical repos
 nvidia_driver_ubuntu_install_from_cuda_repo: yes
+nvidia_driver_ubuntu_install_from_local_repo: no
 
 # Installing with Canonical repositories
 nvidia_driver_ubuntu_packages:
